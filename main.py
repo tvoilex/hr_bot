@@ -83,7 +83,7 @@ def q9(message):
     client.register_next_step_handler(msg, q10)
 def q10(message):
     print(message.text)
-    msg = client.send_message(message.chat.id, "Спасибо!", parse_mode="Markdown")
+    msg = client.send_message(message.chat.id, "Спасибо! Напишите 'подтвердить', если данные верны!", parse_mode="Markdown")
     with open(f"{message.from_user.username}.txt", 'a') as file:
         file.write(f"{message.text}\n\n\n")
     client.register_next_step_handler(msg, q11)

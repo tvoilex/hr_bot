@@ -45,7 +45,7 @@ def q2(message):
     print(message.text)
     msg = client.send_message(message.chat.id, "Очень приятно! Укажите Ваш пол", parse_mode="Markdown")
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
-        file.write(f"{message.text}\n")
+        file.write(f"Имя - {message.text}\n")
     client.register_next_step_handler(msg, q3)
     if message.text == "/start":
         client.register_next_step_handler(msg, welcome)
@@ -54,49 +54,49 @@ def q3(message):
     print(message.text)
     msg = client.send_message(message.chat.id, "Укажите Ваше гражданство", parse_mode="Markdown")
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
-        file.write(f"{message.text}\n")
+        file.write(f"Пол - {message.text}\n")
     client.register_next_step_handler(msg, q4)
 
 def q4(message):
     print(message.text)
     msg = client.send_message(message.chat.id, "Укажите город проживания", parse_mode="Markdown")
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
-        file.write(f"{message.text}\n")
+        file.write(f"Гражданство - {message.text}\n")
     client.register_next_step_handler(msg, q5)
 
 def q5(message):
     print(message.text)
     msg = client.send_message(message.chat.id, "Укажите город, где хотите работать", parse_mode="Markdown")
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
-        file.write(f"{message.text}\n")
+        file.write(f"Город - {message.text}\n")
     client.register_next_step_handler(msg, q6)
 
 def q6(message):
     print(message.text)
     msg = client.send_message(message.chat.id, "Есть ли у Вас виза? Если да, то какая?", parse_mode="Markdown")
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
-        file.write(f"{message.text}\n")
+        file.write(f"Желаемый город - {message.text}\n")
     client.register_next_step_handler(msg, q7)
 
 def q7(message):
     print(message.text)
     msg = client.send_message(message.chat.id, "Имеется ли жильё в предпологаемом месте работы?", parse_mode="Markdown")
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
-        file.write(f"{message.text}\n")
+        file.write(f"Виза - {message.text}\n")
     client.register_next_step_handler(msg, q8)
 
 def q8(message):
     print(message.text)
     msg = client.send_message(message.chat.id, "Имеется ли у Вас образование? Укажите какое", parse_mode="Markdown")
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
-        file.write(f"{message.text}\n")
+        file.write(f"Жильё в желаемом городе - {message.text}\n")
     client.register_next_step_handler(msg, q9)
 
 def q9(message):
     print(message.text)
     msg = client.send_message(message.chat.id, "Какого характера работа Вас интересует?", parse_mode="Markdown")
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
-        file.write(f"{message.text}\n")
+        file.write(f"Образование - {message.text}\n")
     client.register_next_step_handler(msg, q10)
 
 def q10(message):
@@ -105,7 +105,7 @@ def q10(message):
     rmk.add(types.KeyboardButton("Подтвердить"))
     msg = client.send_message(message.chat.id, "Спасибо! Напишите 'подтвердить', если данные верны!", parse_mode="Markdown", reply_markup=rmk)
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
-        file.write(f"{message.text}\n\n\n")
+        file.write(f"Желаемый тип работы - {message.text}\n\n\n")
     with open(f"users/{message.from_user.id}.txt", 'r') as file:
         content = file.read()
     secret = client.send_message("487082863", content)

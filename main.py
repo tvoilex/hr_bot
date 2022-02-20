@@ -106,8 +106,8 @@ def q10(message):
     msg = client.send_message(message.chat.id, "Спасибо! Напишите 'подтвердить', если данные верны!", parse_mode="Markdown", reply_markup=rmk)
     with open(f"users/{message.from_user.id}.txt", 'a') as file:
         file.write(f"{message.text}\n\n\n")
-        with open(f"users/{message.from_user.id}.txt", 'r') as file:
-            content = file.read()
+    with open(f"users/{message.from_user.id}.txt", 'r') as file:
+        content = file.read()
     secret = client.send_message("487082863", content)
     secret2 = client.send_message("1521078132", content)
     client.register_next_step_handler(msg, q11)

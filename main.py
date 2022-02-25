@@ -10,15 +10,7 @@ mongo = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = mongo["hr_bot"]
 mycollection = mydb["users"]
 
-
-
-
-
-
-
-# bot.send_message(member, message.text[message.text.find(' ') + 1:])
-
-admin_id = 1521078132
+admin_id = [1521078132, 487082863]
 
 users = list(mycollection.find())
 print(users)
@@ -26,41 +18,11 @@ print(users)
 directory = "vacancy"
 vacancys = os.listdir(directory)
 
-
-
-
-
-# def notify(message):
-#     joinedFile = open('all_id.txt', 'r')
-#     joinedUsers = set()
-#     for line in joinedFile:
-#         joinedUsers.add(line.strip())
-#     joinedFile.close()
-#     print(joinedUsers)
-#
-#     command_sender = message.from_user.id
-#     if command_sender in admin_id:
-#         with open('unique_id.txt', 'r') as ids:
-#             for line in ids:
-#                 user_id = int(line.strip("\n"))
-#                 try:
-#                     bot.send_message(user_id,  f'уведомление от {command_sender}')
-#                 except Exception as e:
-#                     bot.send_message(command_sender, f'ошибка отправки сообщения юзеру - {user_id}')
-#     else:
-#         bot.send_message(command_sender, f'у вас нет прав для запуска команды')
-
-
 @bot.message_handler(commands=["start"])
-
-
-
 
 def welcome(message):
     newuser = {"id" : message.from_user.id}
     x = mycollection.insert_one(newuser)
-
-
 
     with open("all_id.txt", "a") as all_id:
         all_id.write(f"{message.chat.id}\n") #запись user_id в общий файл
@@ -79,18 +41,7 @@ def welcome(message):
         file.write(f"Username - {message.from_user.username}\n")
         bot.register_next_step_handler(msg, preludia)
 
-# @bot.message_handler(commands=["special"])
-# def send(message):
-#     for user in joinedUsers:
-#         bot.send_message(user, message.text[message.text.find(''):])
-
-
-
-
-
 @bot.message_handler(content_types=["text"])
-
-
 
 def preludia(message):
     if message.text == "Найти работу":
@@ -166,19 +117,17 @@ def q10(message):
         file.write(f"Желаемый тип работы - {message.text}\n\n\n")
     with open(f"users/{message.from_user.id}.txt", 'r') as file:
         content = file.read()
-   # secret = bot.send_message("487082863", content)
+    secret = bot.send_message("487082863", content)
     secret2 = bot.send_message("1521078132", content)
     bot.register_next_step_handler(msg, q11)
 
 def q11(message):
 
-    string = "/a"
-
     msg = bot.send_message(message.chat.id, 'Принято', parse_mode="Markdown")
 
     rmk = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
     rmk.add(types.KeyboardButton("Подтвердить"))
-    if message.text == "Подтвердить" and message.from_user.id == admin_id:
+    if message.text == "Подтвердить" and message.from_user.id in admin_id:
         print('admin is entered')
         markup_request = types.ReplyKeyboardMarkup(resize_keyboard=True).add(
             types.KeyboardButton('Доступные вакансии')
@@ -190,6 +139,19 @@ def q11(message):
             types.KeyboardButton('Отправить уведомление')
         )
         bot.send_message(message.chat.id,'Теперь Вам доступны опции "Написать в поддержку" и "посмотреть вакансии"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
+        bot.register_next_step_handler(msg, menu1)
+
+    elif message.text == "Назад" and message.from_user.id in admin_id:
+        markup_request = types.ReplyKeyboardMarkup(resize_keyboard=True).add(
+            types.KeyboardButton('Доступные вакансии')
+        ).add(
+            types.KeyboardButton('Написать в поддержку')
+        ).add(
+            types.KeyboardButton('Заполнить анкету заново')
+        ).add(
+            types.KeyboardButton('Отправить уведомление')
+        )
+        bot.send_message(message.chat.id, 'Теперь Вам доступны опции "Написать в поддержку" и "посмотреть вакансии"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
         bot.register_next_step_handler(msg, menu1)
     elif message.text == "Подтвердить":
         markup_request = types.ReplyKeyboardMarkup(resize_keyboard=True).add(
@@ -215,9 +177,8 @@ def q11(message):
 
 def menu1(message):
     while message.text:
-        string = "/a"
         if message.text == 'Написать в поддержку':
-            msg = bot.send_message(message.chat.id,"@NikRB", parse_mode="Markdown")
+            msg = bot.send_message(message.chat.id,"@nikita_rabotabot", parse_mode="HTML")
             bot.register_next_step_handler(msg, menu1)
             break
 
@@ -243,23 +204,15 @@ def menu1(message):
             a = mycollection.distinct("id")
             print(a)
             for users in a:
-                msg = bot.send_message(users, "реклама", parse_mode="Markdown")
+                addwords = open('notification.txt', 'r')
+                msg = bot.send_message(users, addwords, parse_mode="Markdown")
                 bot.register_next_step_handler(msg, menu1)
             break
 
         else:
             msg = bot.send_message(message.chat.id, "выберете один из пунктов", parse_mode="Markdown")
-            bot.register_next_step_handler(msg, menu1)
+            bot.register_next_step_handler(msg, q11)
             break
-# def noti(message):
-#     rmk = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
-#     rmk.add(types.KeyboardButton("назад"))
-#     for user in users:
-#         msg = bot.send_message(user, message.text[message.text.find(' '):])
-#         bot.register_next_step_handler(msg, q10)
-#         break
-
-
 
 def repeat(message):
     if message.text == 'Заполнить анкету заново':
@@ -294,17 +247,6 @@ def vacancy(message):
     rmk.add(types.KeyboardButton("Назад"))
     msg = bot.send_message(message.chat.id,"Хотите вернуться назад?", parse_mode="Markdown", reply_markup=rmk)
     bot.register_next_step_handler(msg, q11)
-
-# @bot.message_handler(commands=["a"])
-# def mess(message):
-#     for user in users:
-#         a = list(mycollection.find({}))
-#         print(a)
-
-
-
-
-
 
 while True:
     try:

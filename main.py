@@ -5,7 +5,7 @@ import pymongo
 from telebot import types
 import os
 import sys, time
-bot = telebot.TeleBot("5167494720:AAEHZKljDqz5nMvCaa7IQTLCSD0EPr4ghn4")
+bot = telebot.TeleBot("5144826297:AAHGYfzm0W6w2LTdnsPhjOkzpahYQD8Mi8o")
 mongo = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = mongo["hr_bot"]
 mycollection = mydb["users"]
@@ -239,8 +239,11 @@ def vacancy(message):
     for filename in os.listdir("vacancy"):
         with open(os.path.join("vacancy", filename), 'r') as f:
             while i != lenth_of_vacancy:
+                markup = types.InlineKeyboardMarkup()
+                btn_my_site = types.InlineKeyboardButton(text='Написать по вакансии', url='t.me/nikita_rabotabot')
+                markup.add(btn_my_site)
                 text = f.read()
-                msg = bot.send_message(message.chat.id, text, parse_mode='Markdown')
+                msg = bot.send_message(message.chat.id, text, parse_mode='Markdown', reply_markup=markup)
                 i = i+1
                 break
     rmk = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)

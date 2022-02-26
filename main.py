@@ -35,7 +35,7 @@ def welcome(message):
             lines_set.add(line)
     rmk = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
     rmk.add(types.KeyboardButton("Найти работу"))
-    msg = bot.send_message(message.chat.id, "Привет, {0.first_name}!\nЯ - <b>{1.first_name}</b>, помогу тебе найти работу! Если Вы хотите найти работу - напишите 'Найти работу'".format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=rmk)
+    msg = bot.send_message(message.chat.id, "Привет, {0.first_name}!\nЯ помогу тебе найти работу! Если Вы хотите найти работу - напишите 'Найти работу'".format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=rmk)
     with open(f"users/{message.from_user.id}.txt", 'w') as file:
         file.write(f"ID - {message.from_user.id}\n")
         file.write(f"Username - {message.from_user.username}\n")
@@ -46,7 +46,7 @@ def welcome(message):
 def preludia(message):
     if message.text == "Найти работу":
         msg = bot.send_message(message.chat.id, "Требуется ответить на несколько вопросов")
-        bot.send_message(message.chat.id, "Вопрос 1: Ваше *имя*?", parse_mode="Markdown")
+        bot.send_message(message.chat.id, "Ваше *имя*?", parse_mode="Markdown")
         bot.register_next_step_handler(msg, q2)
 
 def q2(message):
@@ -138,7 +138,7 @@ def q11(message):
         ).add(
             types.KeyboardButton('Отправить уведомление')
         )
-        bot.send_message(message.chat.id,'Теперь Вам доступны опции "Написать в поддержку" и "посмотреть вакансии"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
+        bot.send_message(message.chat.id,'Теперь Вам доступны опции "Написать в поддержку", "посмотреть вакансии" и "Заполнить анкету заново"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
         bot.register_next_step_handler(msg, menu1)
 
     elif message.text == "Назад" and message.from_user.id in admin_id:
@@ -151,7 +151,7 @@ def q11(message):
         ).add(
             types.KeyboardButton('Отправить уведомление')
         )
-        bot.send_message(message.chat.id, 'Теперь Вам доступны опции "Написать в поддержку" и "посмотреть вакансии"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
+        bot.send_message(message.chat.id, 'Теперь Вам доступны опции "Написать в поддержку", "посмотреть вакансии" и "Заполнить анкету заново"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
         bot.register_next_step_handler(msg, menu1)
     elif message.text == "Подтвердить":
         markup_request = types.ReplyKeyboardMarkup(resize_keyboard=True).add(
@@ -161,7 +161,7 @@ def q11(message):
         ).add(
             types.KeyboardButton('Заполнить анкету заново')
         )
-        bot.send_message(message.chat.id,'Теперь Вам доступны опции "Написать в поддержку" и "посмотреть вакансии"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
+        bot.send_message(message.chat.id,'Теперь Вам доступны опции "Написать в поддержку", "посмотреть вакансии" и "Заполнить анкету заново"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
         bot.register_next_step_handler(msg, menu1)
 
     else:
@@ -172,7 +172,7 @@ def q11(message):
         ).add(
             types.KeyboardButton('Заполнить анкету заново')
         )
-        bot.send_message(message.chat.id,'Теперь Вам доступны опции "Написать в поддержку" и "посмотреть вакансии"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
+        bot.send_message(message.chat.id,'Теперь Вам доступны опции "Написать в поддержку", "посмотреть вакансии" и "Заполнить анкету заново"'.format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup_request)
         bot.register_next_step_handler(msg, menu1)
 
 def menu1(message):

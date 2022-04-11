@@ -5,8 +5,8 @@ import pymongo
 from telebot import types
 import os
 import sys, time
-bot = telebot.TeleBot("5144826297:AAHGYfzm0W6w2LTdnsPhjOkzpahYQD8Mi8o")
-mongo = pymongo.MongoClient("mongodb://localhost:27017/")
+bot = telebot.TeleBot()
+mongo = pymongo.MongoClient()
 mydb = mongo["hr_bot"]
 mycollection = mydb["users"]
 
